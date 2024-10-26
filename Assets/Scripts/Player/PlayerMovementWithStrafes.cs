@@ -105,8 +105,8 @@ public class PlayerMovementWithStrafes : MonoBehaviour
 		// Calculate top velocity
 		udp = playerVelocity;
 		udp.y = 0;
-		if (udp.magnitude > playerTopVelocity)
-			playerTopVelocity = udp.magnitude;
+		//if (udp.magnitude > playerTopVelocity)
+		//	playerTopVelocity = udp.magnitude;
 	}
 	public void SetMovementDir()
 	{
