@@ -528,15 +528,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 577535951392269918, guid: 8ff9a036c898253449e4bdccba88e546,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3334315879313398456}
-    - targetCorrespondingSourceObject: {fileID: 577535951392269918, guid: 8ff9a036c898253449e4bdccba88e546,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2695385523346641617}
-    - targetCorrespondingSourceObject: {fileID: 577535951392269918, guid: 8ff9a036c898253449e4bdccba88e546,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5440055700502468763}
     - targetCorrespondingSourceObject: {fileID: 2526671501365892383, guid: 8ff9a036c898253449e4bdccba88e546,
         type: 3}
       insertIndex: -1
@@ -554,32 +546,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6325929868822724329}
   m_PrefabAsset: {fileID: 0}
---- !u!143 &3334315879313398456
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6902301136719894711}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2695385523346641617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,55 +553,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6902301136719894711}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b63a4ee2a3044a42a9923d572ac5f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  jumpKey: 32
+  moveSpeed: 25
   orientation: {fileID: 5993214657141762874}
---- !u!114 &5440055700502468763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6902301136719894711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ec0131ac4aa41244808019f66ddb8f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 3334315879313398456}
-  GroundCheck: {fileID: 5993214657141762874}
-  GroundMask:
+  groundDrag: 10
+  groundCheck: 0
+  groundDef:
     serializedVersion: 2
     m_Bits: 65536
-  GroundDistance: 0.4
-  moveSpeed: 12
-  runAcceleration: 14
-  runDeacceleration: 30
-  airAcceleration: 2
-  airDeacceleration: 2
-  airControl: 0.3
-  sideStrafeAcceleration: 50
-  sideStrafeSpeed: 1
-  jumpSpeed: 8
-  friction: 6
-  playerFriction: 0
-  JumpQueue: 0
-  wishJump: 0
-  PlayerVel: {x: 0, y: 0, z: 0}
-  ModulasSpeed: 0
-  ZVelocity: 0
-  XVelocity: 0
-  moveDirection: {x: 0, y: 0, z: 0}
-  moveDirectionNorm: {x: 0, y: 0, z: 0}
-  playerView: {fileID: 1891056637575892701}
-  x: 0
-  z: 0
-  IsGrounded: 0
-  player: {fileID: 7147260817297219583}
+  jumpForce: 10
+  airMultiplier: 5
+  jumpCooldown: 0.2
+  jumpExaustion: 0
 --- !u!4 &7147260817297219583 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3817394881734091030, guid: 8ff9a036c898253449e4bdccba88e546,
