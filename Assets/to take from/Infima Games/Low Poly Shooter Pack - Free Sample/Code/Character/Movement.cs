@@ -120,8 +120,11 @@ namespace InfimaGames.LowPolyShooterPack
                 groundHits, extents.y - radius * 0.5f, ~0, QueryTriggerInteraction.Ignore);
             
             //We can ignore the rest if we don't have any proper hits.
-            if (!groundHits.Any(hit => hit.collider != null && hit.collider != capsule)) 
-                return;
+            if (!groundHits.Any(hit => hit.collider != null && hit.collider != capsule))
+            {
+                grounded = false; return;
+            }
+                
             
             //Store RaycastHits.
             for (var i = 0; i < groundHits.Length; i++)
@@ -172,7 +175,7 @@ namespace InfimaGames.LowPolyShooterPack
                 movement *= speedWalking;
             }
 
-            //World space velocity calculation. This allows us to add it to the rigidbody's velocity properly.
+            //World space velocity calculation. This allows s to add it to the rigidbody's velocity properly.
             movement = transform.TransformDirection(movement);
 
             #endregion

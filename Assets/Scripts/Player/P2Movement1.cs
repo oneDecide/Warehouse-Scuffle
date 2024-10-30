@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
 
-public class PMovement : MonoBehaviour
+public class P2Movement1 : MonoBehaviour
 {
     [Header("KeyBinds")] 
     public KeyCode jumpKey = KeyCode.Space;
@@ -32,6 +29,8 @@ public class PMovement : MonoBehaviour
     [SerializeField] public float jumpCooldown = .2f;
     [SerializeField] public float jumpExaustion;
     public bool readyToJump;
+    
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,6 +42,8 @@ public class PMovement : MonoBehaviour
     {
         groundCheck = Physics.Raycast(transform.position, Vector3.down, PHeight * .5f + .3f, groundDef);
         KeyInput();
+        //drag
+        SpeedControl();
         if (groundCheck)
         {
             rb.drag = groundDrag;
@@ -53,7 +54,6 @@ public class PMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SpeedControl();
         MovePlayer();
     }
 
@@ -74,11 +74,27 @@ public class PMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        moveDir = orientation.forward * vertInput + orientation.right * horiInput;
-        if(groundCheck)
-            rb.AddForce(moveDir.normalized * (moveSpeed * 10f), ForceMode.Force);
-        else
-            rb.AddForce(moveDir.normalized * (moveSpeed * 10f * airMultiplier), ForceMode.Force);
+        //#region Calculate Movement Velocity
+
+        //Get Movement Input!
+        //Vector2 frameInput = playerCharacter.GetInputMovement();
+        //Calculate local-space direction by using the player's input.
+        //var movement = new Vector3(frameInput.x, 0.0f, frameInput.y);
+            
+        //Running speed calculation.
+        //    movement *= moveSpeed;
+
+        //World space velocity calculation. This allows us to add it to the rigidbody's velocity properly.
+        //movement = transform.TransformDirection(movement);
+
+       // #endregion
+            
+        //Update Velocity.
+        //Velocity = new Vector3(movement.x, 0.0f, movement.z);
+        //if (!groundCheck)
+        //{
+        //    Velocity = new Vector3(movement.x, -9.8f, movement.z);
+        //}
     }
 
     private void SpeedControl()
@@ -104,5 +120,5 @@ public class PMovement : MonoBehaviour
     {
         readyToJump = true;
     }
-    
 }
+
