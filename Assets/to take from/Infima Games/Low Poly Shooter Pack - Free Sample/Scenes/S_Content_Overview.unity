@@ -7889,15 +7889,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 434113066, guid: 19eadcf8fbed56b4da77ca94c1b4145f, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 916095938892669238, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 36159
-      objectReference: {fileID: 0}
     - target: {fileID: 2748913124992463393, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7953,20 +7944,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_LPSP_FP_CH
       objectReference: {fileID: 0}
-    - target: {fileID: 6219025921223107655, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 296431520003815827, guid: 19eadcf8fbed56b4da77ca94c1b4145f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2751027687307977091, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
-        type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 1648902779}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19eadcf8fbed56b4da77ca94c1b4145f, type: 3}
 --- !u!1001 &837662653
 PrefabInstance:
@@ -15312,38 +15293,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1647857711}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1648902768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2751027687307977091, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
-    type: 3}
-  m_PrefabInstance: {fileID: 836103645}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1648902779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648902768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b63a4ee2a3044a42a9923d572ac5f54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpKey: 32
-  moveSpeed: 10
-  orientation: {fileID: 2100368090}
-  groundDrag: 2
-  groundCheck: 0
-  groundDef:
-    serializedVersion: 2
-    m_Bits: 8
-  PHeight: 3
-  jumpForce: 2
-  airMultiplier: 2
-  jumpCooldown: 0.2
-  jumpExaustion: 0
-  readyToJump: 0
 --- !u!1 &1651845187
 GameObject:
   m_ObjectHideFlags: 0
@@ -19100,12 +19049,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1565678729}
   m_LocalEulerAnglesHint: {x: 89.067, y: -30, z: 0}
---- !u!4 &2100368090 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8479647377699197980, guid: 19eadcf8fbed56b4da77ca94c1b4145f,
-    type: 3}
-  m_PrefabInstance: {fileID: 836103645}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2117811046
 PrefabInstance:
   m_ObjectHideFlags: 0

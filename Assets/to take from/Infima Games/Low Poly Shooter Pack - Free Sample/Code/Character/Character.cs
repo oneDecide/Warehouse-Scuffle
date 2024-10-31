@@ -372,16 +372,7 @@ namespace InfimaGames.LowPolyShooterPack
 			equippedWeaponMagazine = weaponAttachmentManager.GetEquippedMagazine();
 		}
 
-		private void FireEmpty()
-		{
-			/*
-			 * Save Time. Even though we're not actually firing, we still need this for the fire rate between
-			 * empty shots.
-			 */
-			lastShotTime = Time.time;
-			//Play.
-			characterAnimator.CrossFade("Fire Empty", 0.05f, layerOverlay, 0);
-		}
+		
 
 		/// <summary>
 		/// Updates the cursor state based on the value of the cursorLocked variable.
@@ -589,10 +580,9 @@ namespace InfimaGames.LowPolyShooterPack
 						//Has fire rate passed.
 						if (Time.time - lastShotTime > 60.0f / equippedWeapon.GetRateOfFire())
 							Fire();
+						if(!equippedWeapon.HasAmmunition())
+							PlayReloadAnimation();
 					}
-					//Fire Empty.
-					else
-						FireEmpty();
 					break;
 				//Canceled.
 				case {phase: InputActionPhase.Canceled}:

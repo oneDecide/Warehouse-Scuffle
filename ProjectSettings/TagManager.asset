@@ -17,6 +17,8 @@ TagManager:
   - Dirt (Static)
   - Wood
   - Ground
+  - Enemy
+  - ResetZone
   layers:
   - Default
   - TransparentFX

@@ -199,6 +199,7 @@ public class ProjectileScript : MonoBehaviour {
 				hit.gameObject.GetComponent<GasTankScript> ().isHit = true;
 				hit.gameObject.GetComponent<GasTankScript> ().explosionTimer = 0.05f;
 			}
+			
 		}
 	}
 }
