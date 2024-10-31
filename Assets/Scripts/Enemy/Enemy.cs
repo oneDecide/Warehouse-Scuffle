@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
         currentHP = maxHP;
         audioSource = gameObject.AddComponent<AudioSource>();
         controller = GetComponent<CharacterController>(); // If using a CharacterController
+        audioSource.volume = .2f;
     }
 
     public void TakeDamage(int damage)
