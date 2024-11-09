@@ -62,8 +62,8 @@ public class FPSMovement : MonoBehaviour
         }
 
         // Apply gravity with a higher scale to make it more responsive
-        velocity.y += gravity * gravityScale * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        //velocity.y += gravity * gravityScale * Time.deltaTime;
+        //controller.Move(velocity * Time.deltaTime);
     }
 
     public void HandleDodge()
