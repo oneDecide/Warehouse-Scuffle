@@ -7,7 +7,7 @@ Flare:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Moon Glare
-  m_FlareTexture: {fileID: 2800000, guid: 0309f746e292a4772b7e81facce34e28, type: 3}
+  m_FlareTexture: {fileID: 2800000, guid: a6e9f4ff100a94264a812ad74e17416c, type: 3}
   m_TextureLayout: 2
   m_Elements:
   - m_ImageIndex: 0
