@@ -228,3 +228,8 @@ Start importing Assets/to take from/AllSkyFree/Night MoonBurst/Night Moon Burst_
  -> (artifact id: '05f3ab122e3d5dc6f2122f542f925a6d') in 0.016841 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 2
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: The I/O operation has been aborted because of either a thread exit or an application request.
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

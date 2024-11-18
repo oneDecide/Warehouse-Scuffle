@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FPSMovement : MonoBehaviour
 {
-    public CharacterController controller;
+    private Rigidbody rb;
     public float speed = 10f;
     public float dodgeSpeed = 20f;
     public float dodgeDuration = 0.2f;
@@ -22,6 +22,11 @@ public class FPSMovement : MonoBehaviour
     private bool isDodging;
     private Coroutine dodgeCoroutine;
 
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     public void HandleMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -32,8 +37,7 @@ public class FPSMovement : MonoBehaviour
         {
             if (!isDodging)
             {
-                controller.Move(move * speed * Time.deltaTime);
-
+                rb.MovePosition(rb.position + move * speed * Time.fixedDeltaTime);
                 // Apply ground friction
                 velocity.x = Mathf.Lerp(velocity.x, 0, groundFriction * Time.deltaTime);
                 velocity.z = Mathf.Lerp(velocity.z, 0, groundFriction * Time.deltaTime);
@@ -45,7 +49,7 @@ public class FPSMovement : MonoBehaviour
             Vector3 airMove = move * speed * airControlFactor;
             velocity.x += airMove.x * Time.deltaTime;
             velocity.z += airMove.z * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime); 
         }
     }
 
@@ -93,7 +97,7 @@ public class FPSMovement : MonoBehaviour
 
         while (Time.time < startTime + dodgeDuration)
         {
-            controller.Move(dodgeDirection * dodgeSpeed * Time.deltaTime);
+            rb.MovePosition(rb.position + dodgeDirection * dodgeSpeed * Time.fixedDeltaTime);
             yield return null;
         }
 
