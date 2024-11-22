@@ -11,6 +11,8 @@ public class PlayerCamera : MonoBehaviour
     private float yRotation;
     
     
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -19,16 +21,16 @@ public class PlayerCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //mouse input
         float mouseX = Input.GetAxisRaw("Mouse X")  * (100 * sens) * Time.fixedDeltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y")  * (100 * sens) * Time.fixedDeltaTime;
-
+        
         yRotation += mouseX;
         xRotation -= mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -75, 75);
+        xRotation = Mathf.Clamp(xRotation, -85, 85);
         
         //cam rotate
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);

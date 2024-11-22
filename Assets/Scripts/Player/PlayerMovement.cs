@@ -2,11 +2,12 @@
 
 using System;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour {
 
     //Assingables
-    public Transform playerCam;
     public Transform orientation;
     
     //Other
@@ -41,10 +42,18 @@ public class PlayerMovement : MonoBehaviour {
     //Input
     float x, y;
     bool jumping, sprinting, crouching;
+    public bool able = false;
     
     //Sliding
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
+    
+    //dodging
+    private bool isGrounded;
+    private bool isDodging;
+    private Coroutine dodgeCoroutine;
+    public float dodgeSpeed = 20f;
+    public float dodgeDuration = 0.2f;
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -59,11 +68,14 @@ public class PlayerMovement : MonoBehaviour {
     
     private void FixedUpdate() {
         Movement();
+        if(able)
+            HandleDodge();
     }
 
-    private void Update() {
-        MyInput();
-        Look();
+    private void Update()
+    {
+        if(able)
+            MyInput();
     }
 
     /// <summary>
@@ -99,7 +111,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Movement() {
         //Extra gravity
-        rb.AddForce(Vector3.down * Time.deltaTime * 10);
+        rb.AddForce(Vector3.down * Time.deltaTime * 20);
         
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
@@ -131,12 +143,12 @@ public class PlayerMovement : MonoBehaviour {
         
         // Movement in air
         if (!grounded) {
-            multiplier = 0.5f;
-            multiplierV = 0.5f;
+            multiplier = 0.75f;
+            multiplierV = 0.75f;
         }
         
         // Movement while sliding
-        if (grounded && crouching) multiplierV = 0f;
+        if (grounded && crouching) multiplierV = .9f;
 
         //Apply forces to move player
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
@@ -165,25 +177,6 @@ public class PlayerMovement : MonoBehaviour {
     private void ResetJump() {
         readyToJump = true;
     }
-    
-    private float desiredX;
-    private void Look() {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
-
-        //Find current look rotation
-        Vector3 rot = playerCam.transform.localRotation.eulerAngles;
-        desiredX = rot.y + mouseX;
-        
-        //Rotate, and also make sure we dont over- or under-rotate.
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        //Perform the rotations
-        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
-        orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
-    }
-
     private void CounterMovement(float x, float y, Vector2 mag) {
         if (!grounded || jumping) return;
 
@@ -267,4 +260,37 @@ public class PlayerMovement : MonoBehaviour {
         grounded = false;
     }
     
+    public void HandleDodge()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)
+        {
+            if (dodgeCoroutine != null)
+            {
+                StopCoroutine(dodgeCoroutine);
+            }
+            dodgeCoroutine = StartCoroutine(Dodge());
+        }
+    }
+
+    private IEnumerator Dodge()
+    {
+        isDodging = true;
+
+        Vector3 dodgeDirection = (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")).normalized;
+
+        if (dodgeDirection == Vector3.zero)
+        {
+            dodgeDirection = transform.forward; // Default forward dodge if no input
+        }
+
+        float startTime = Time.time;
+
+        while (Time.time < startTime + dodgeDuration)
+        {
+            rb.MovePosition(rb.position + dodgeDirection * dodgeSpeed * Time.fixedDeltaTime);
+            yield return null;
+        }
+
+        isDodging = false;
+    }
 }

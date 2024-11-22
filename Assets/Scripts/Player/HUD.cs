@@ -56,7 +56,7 @@ public class HUD : MonoBehaviour
             // Enemy Count Text
             enemyCountText = new GameObject("EnemyCountText").AddComponent<Text>();
             enemyCountText.transform.SetParent(canvas.transform);
-            enemyCountText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            enemyCountText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             enemyCountText.fontSize = 24;
             enemyCountText.color = Color.white;
             enemyCountText.alignment = TextAnchor.UpperLeft;

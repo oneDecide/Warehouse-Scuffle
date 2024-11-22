@@ -4,14 +4,14 @@ public class Player : MonoBehaviour
 {
     public int maxHP = 100;
     public int currentHP;
-
-    public bool able;
-    public FPSMovement FPSMovement;
+    
+    public PlayerMovement PlayerMovement;
 
     void Awake()
     {
-        able = true;
+        PlayerMovement.able = true;
         currentHP = maxHP;
+        
     }
 
     public void TakeDamage(int damage)
@@ -26,12 +26,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Handle player movement and actions
-        if (able)
-        {
-            FPSMovement.HandleMovement();
-            FPSMovement.HandleJumpAndGravity();
-            FPSMovement.HandleDodge();
-        }
+        
     }
 }
