@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UIMenu : MonoBehaviour
 {
     [SerializeField] private bool closedByDefault = true;
+    
 
     private void Awake()
     {

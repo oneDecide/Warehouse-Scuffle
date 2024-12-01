@@ -65,7 +65,6 @@ public class HUD : MonoBehaviour
             // HP Text
             hpText = new GameObject("HPText").AddComponent<Text>();
             hpText.transform.SetParent(canvas.transform);
-            hpText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             hpText.fontSize = 24;
             hpText.color = Color.white;
             hpText.alignment = TextAnchor.UpperRight;
