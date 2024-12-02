@@ -9,31 +9,34 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] Transform orientation;
     private float xRotation;
     private float yRotation;
-    
-    
-    
-    
+
+    public bool control;
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        control = true;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //mouse input
-        float mouseX = Input.GetAxisRaw("Mouse X")  * (100 * sens) * Time.fixedDeltaTime;
-        float mouseY = Input.GetAxisRaw("Mouse Y")  * (100 * sens) * Time.fixedDeltaTime;
+        if(control)
+        {
+            //mouse input
+            float mouseX = Input.GetAxisRaw("Mouse X")  * (100 * sens) * Time.fixedDeltaTime;
+            float mouseY = Input.GetAxisRaw("Mouse Y")  * (100 * sens) * Time.fixedDeltaTime;
         
-        yRotation += mouseX;
-        xRotation -= mouseY;
+            yRotation += mouseX;
+            xRotation -= mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -85, 85);
+            xRotation = Mathf.Clamp(xRotation, -85, 85);
         
-        //cam rotate
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
-        orientation.rotation = Quaternion.Euler(0f,yRotation,0f);
+            //cam rotate
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+            orientation.rotation = Quaternion.Euler(0f,yRotation,0f);
+        }
+        
     }
 }
