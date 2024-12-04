@@ -3,9 +3,8 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.XR;
-
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour 
+{
 
     //Assingables
     public Transform orientation;
@@ -124,7 +123,7 @@ public class PlayerMovement : MonoBehaviour {
         //If sliding down a ramp, add force down so player stays grounded and also builds speed
         if (crouching && grounded && readyToJump) {
             rb.AddForce(Vector3.down * Time.deltaTime * 3000);
-            return;
+            //return;
         }
         
         //If speed is larger than maxspeed, cancel out the input so you don't go over max speed

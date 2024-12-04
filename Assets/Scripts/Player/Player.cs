@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public int maxHP = 100;
     public int currentHP;
     
-    [SerializeField] public PlayerMovement PlayerMovement;
+    public PlayerMovement PlayerMovement;
     [SerializeField] public PlayerCamera PlayerCamera;
     [SerializeField] public Canvas pauseMenu;
     private bool escape;
@@ -43,11 +43,11 @@ public class Player : MonoBehaviour
 
     public void PauseGame()
     {
-        /*if (pause == true)
+        if (pause)
         {
             ResumeGame();
             return;
-        }*/
+        }
         
         pause = true;
         pauseMenu.enabled = true;

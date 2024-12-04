@@ -7,7 +7,6 @@ public class ResetZone : MonoBehaviour
     public GameObject player;
     public GameObject screenOverlay; // UI element to darken the screen
     public float fadeDuration = 1f;
-    private FPSMovement playerMovement;
     private Player playerScript;
     private Color originalOverlayColor;
 
