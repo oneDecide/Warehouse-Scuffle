@@ -1,5 +1,3 @@
-// Some stupid rigidbody based movement by Dani
-
 using System;
 using UnityEngine;
 using System.Collections;
@@ -49,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     public float dodgeSpeed = 20f;
     public float dodgeDuration = 0.2f;
 
+    public Gun gunScript;
+
     void Awake() {
         rb = GetComponent<Rigidbody>();
     }
@@ -62,14 +62,18 @@ public class PlayerMovement : MonoBehaviour
     
     private void FixedUpdate() {
         Movement();
-        if(able)
-            HandleDodge();
     }
 
     private void Update()
     {
-        if(able)
+        if (able)
+        {
             MyInput();
+            gunScript.able = true;
+        }
+
+        else
+            gunScript.able = false;
     }
 
     /// <summary>
@@ -79,12 +83,12 @@ public class PlayerMovement : MonoBehaviour
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetButton("Jump");
-        crouching = Input.GetKey(KeyCode.LeftControl);
+        crouching = Input.GetKey(KeyCode.LeftShift);
       
         //Crouching
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
             StartCrouch();
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
             StopCrouch();
     }
 
@@ -123,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         //If sliding down a ramp, add force down so player stays grounded and also builds speed
         if (crouching && grounded && readyToJump) {
             rb.AddForce(Vector3.down * Time.deltaTime * 3000);
-            //return;
+            return;
         }
         
         //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
@@ -254,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
         grounded = false;
     }
     
-    public void HandleDodge()
+    /*public void HandleDodge()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)
         {
@@ -286,5 +290,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isDodging = false;
-    }
+    }*/
 }
