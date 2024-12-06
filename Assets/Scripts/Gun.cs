@@ -48,7 +48,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
         makeAble = ammo != 0;
-        if (Input.GetButton("Reload"))
+        if (Input.GetButton("Reload") & ammo != initialAmmo)
         {
             startReload();
         }

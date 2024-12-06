@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public float dodgeDuration = 0.2f;
 
     public Gun gunScript;
+    public Player playerScript;
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -257,7 +258,15 @@ public class PlayerMovement : MonoBehaviour
     private void StopGrounded() {
         grounded = false;
     }
-    
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("explosion"))
+        {
+            playerScript.Death();
+        }
+    }
+
     /*public void HandleDodge()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDodging)

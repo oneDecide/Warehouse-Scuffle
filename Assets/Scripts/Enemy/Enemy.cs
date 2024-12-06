@@ -4,15 +4,14 @@ public class Enemy : MonoBehaviour
 {
     public int maxHP = 50;
     public int currentHP;
-    public AudioClip deathSound;
+    public AudioSource deathSound;
     private AudioSource audioSource;
-    private CharacterController controller; // Assuming you're using CharacterController for movement
+    private EnemyMovement enemyMovement;
 
     void Awake()
     {
         currentHP = maxHP;
-        audioSource = gameObject.AddComponent<AudioSource>();
-        controller = GetComponent<CharacterController>(); // If using a CharacterController
+        audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.volume = .2f;
     }
 
@@ -28,28 +27,23 @@ public class Enemy : MonoBehaviour
 
     public void Death()
     {
-        // Disable movement
-        if (controller != null)
-        {
-            controller.enabled = false;
-        }
-
-        // Disable the MeshRenderer
         MeshRenderer renderer = GetComponent<MeshRenderer>();
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
         if (renderer != null)
         {
             renderer.enabled = false;
         }
-
-        // Play the death sound with slight varying pitch
+        
         if (deathSound != null)
         {
-            audioSource.clip = deathSound;
             audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly vary pitch between 0.95 and 1.05
             audioSource.Play();
         }
-
-        // Handle additional death logic
-        Debug.Log(gameObject.name + " has died.");
+        
+        Destroy(gameObject, 2.5f);
     }
 }

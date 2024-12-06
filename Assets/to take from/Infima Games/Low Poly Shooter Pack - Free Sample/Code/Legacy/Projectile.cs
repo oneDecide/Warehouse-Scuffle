@@ -23,6 +23,8 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 		public Transform [] dirtImpactPrefabs;
 		public Transform []	concreteImpactPrefabs;
 
+		
+
 		private void Start ()
 		{
 			//Grab the game mode service, we need it to access the player character!
@@ -139,6 +141,12 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 					<GasTankScript> ().isHit = true;
 				//Destroy bullet object
 				Destroy(gameObject);
+			}
+
+			if (collision.transform.tag == "Enemy")
+			{
+				Enemy script = collision.gameObject.GetComponent<Enemy>();
+				script.TakeDamage(100);
 			}
 		}
 

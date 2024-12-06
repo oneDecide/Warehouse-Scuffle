@@ -70,7 +70,12 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
-        
+        Debug.Log("The Player Has Died");
+        Time.timeScale = .2f;
+        PlayerMovement.able = false;
+        PlayerCamera.control = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public void ResumeGame()
     {
