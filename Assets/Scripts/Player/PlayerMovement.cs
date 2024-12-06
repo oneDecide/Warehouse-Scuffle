@@ -69,11 +69,11 @@ public class PlayerMovement : MonoBehaviour
         if (able)
         {
             MyInput();
-            gunScript.able = true;
+            gunScript.makeAble = true;
         }
 
         else
-            gunScript.able = false;
+            gunScript.makeAble = false;
     }
 
     /// <summary>

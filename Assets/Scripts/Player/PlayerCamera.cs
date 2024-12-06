@@ -39,4 +39,9 @@ public class PlayerCamera : MonoBehaviour
         }
         
     }
+
+    public void SetSens(float value)
+    {
+        sens = value;
+    }
 }

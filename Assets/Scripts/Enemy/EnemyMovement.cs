@@ -1,41 +1,42 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public float minMoveInterval = 1f;
-    public float maxMoveInterval = 5f;
-    public float moveDistance = 5f;
+    public NavMeshAgent agent;
+    public Transform player;
+    public LayerMask whatIsGround, whatIsPlayer;
 
-    private Vector3 startPosition;
-    private Coroutine moveCoroutine;
+    public Vector3 walkpoint;
+    private bool walkPointSet;
+    public float walkPointRange;
 
-    void Start()
+    public float timeBetweenAttacks;
+    private bool alreadyAttacked;
+
+    public float sightRange, attackRange;
+    public bool playerInSightRange, playerInAttackRange;
+
+    private void Awake()
     {
-        startPosition = transform.position;
-        moveCoroutine = StartCoroutine(MoveRandomly());
+        player = GameObject.Find("Player_1").transform;
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    private IEnumerator MoveRandomly()
+    public void Update()
     {
-        while (true)
-        {
-            float waitTime = Random.Range(minMoveInterval, maxMoveInterval);
-            yield return new WaitForSeconds(waitTime);
+        
+    }
 
-            Vector3 randomDirection = new Vector3(
-                Random.Range(-1f, 1f),
-                0f, // Keep the movement on the X-Z plane
-                Random.Range(-1f, 1f)
-            ).normalized;
+    private void Patroling()
+    {
+        
+    }
 
-            Vector3 targetPosition = startPosition + randomDirection * moveDistance;
-            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-                yield return null;
-            }
-        }
+    private void ChaseAndAttackPlayer()
+    {
+        
     }
 }

@@ -10,16 +10,20 @@ public class Player : MonoBehaviour
     public PlayerMovement PlayerMovement;
     [SerializeField] public PlayerCamera PlayerCamera;
     [SerializeField] public Canvas pauseMenu;
+    [SerializeField] public Canvas UICanvas;
     private bool escape;
     private bool pause = false;
+    [SerializeField] public AudioSource musicSource;
     
     private void Start()
     {
+        //musicSource.Play();
         PlayerMovement.able = true;
         currentHP = maxHP;
         PlayerCamera.control = true;
         pauseMenu.enabled = false;
         pause = false;
+        UICanvas.enabled = true;
     }
 
     public void TakeDamage(int damage)
@@ -48,7 +52,8 @@ public class Player : MonoBehaviour
             ResumeGame();
             return;
         }
-        
+        //musicSource.Pause();
+        UICanvas.enabled = false;
         pause = true;
         pauseMenu.enabled = true;
         Time.timeScale = 0f;
@@ -58,8 +63,19 @@ public class Player : MonoBehaviour
         Cursor.visible = true;
     }
 
+    public void StartGame()
+    {
+        
+    }
+
+    public void Death()
+    {
+        
+    }
     public void ResumeGame()
     {
+        //musicSource.UnPause();
+        UICanvas.enabled = true;
         pause = false;
         pauseMenu.enabled = false;
         Time.timeScale = 1f;
