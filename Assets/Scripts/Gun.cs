@@ -16,16 +16,18 @@ public class Gun : MonoBehaviour
     public TMP_Text ammoCount;
 
     [SerializeField] public float bulletSpeed = 10;
-    [SerializeField] public float rpm = 450;
+    [SerializeField] public float rpm = 550;
 
     [SerializeField]
-    public int initialAmmo = 8;
+    public int initialAmmo = 12;
 
     private int ammo;
     public AudioSource shotSound;
     public AudioSource reloadSound;
     public float audioPitch = .05f;
-    public Canvas gunUI;
+    public TMP_Text reloadPrompt;
+    public TMP_Text ammoCountText;
+    private int maxValue;
     public bool makeAble;
     private float timeBetweenShots;
     private float nextTimeToFire = 0f;
@@ -39,9 +41,11 @@ public class Gun : MonoBehaviour
         gunAnims = GetComponent<Animator>();
         makeAble = true;
         timeBetweenShots = 60f / rpm;
-        fullAuto = false;
+        fullAuto = true;
         ammo = initialAmmo;
         updateUI();
+        maxValue = initialAmmo;
+        reloadPrompt.enabled = false;
     }
 
     // Update is called once per frame
@@ -89,6 +93,8 @@ public class Gun : MonoBehaviour
             gunAnims.SetBool("Shooting", true);
             gunAnims.Play("Shoot", -1, 0f); 
             reloadSound.Stop();
+
+            
         }
         else
         {
@@ -109,6 +115,23 @@ public class Gun : MonoBehaviour
     void updateUI()
     {
         ammoCount.text = "AMMO -  " + ammo;
+        if (maxValue <= 0) return;
+        float percent = (float)ammo / maxValue;
+        if (percent >= 1.0f)
+        {
+            reloadPrompt.enabled = false;
+            ammoCountText.color = Color.white;
+        }
+        else if (percent <= .45f && percent > .12f)
+        {
+            reloadPrompt.enabled = true;
+            ammoCountText.color = Color.yellow;
+        }
+        else if (percent <= .12f)
+        {
+            reloadPrompt.enabled = true;
+            ammoCountText.color = Color.red;
+        }
     }
 
     void startReload()
@@ -126,4 +149,5 @@ public class Gun : MonoBehaviour
         endReload();
         makeAble = true;
     }
+    
 }

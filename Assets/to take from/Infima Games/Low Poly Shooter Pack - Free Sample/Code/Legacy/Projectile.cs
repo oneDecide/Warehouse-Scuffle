@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using InfimaGames.LowPolyShooterPack;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -146,7 +147,18 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 			if (collision.transform.tag == "Enemy")
 			{
 				Enemy script = collision.gameObject.GetComponent<Enemy>();
-				script.TakeDamage(100);
+				Debug.Log("nothing to go off of yet");
+				if (script == null)
+				{
+					StartGame gameStart = collision.gameObject.GetComponent<StartGame>();
+					Debug.Log("Start");
+					gameStart.Death();
+				}
+				else
+				{
+					Debug.Log("Enemy Hit");
+					script.Death();
+				}
 			}
 		}
 

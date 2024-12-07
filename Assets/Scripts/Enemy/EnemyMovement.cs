@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -9,6 +10,8 @@ public class EnemyMovement : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
+    public GameObject enemyBulletPrefab;
+    public Transform enemyBulletSpawn;
 
     public Vector3 walkpoint;
     private bool walkPointSet;
@@ -63,10 +66,20 @@ public class EnemyMovement : MonoBehaviour
     {
         agent.SetDestination(player.position);
         transform.LookAt(player);
+
+        if (!alreadyAttacked)
+        {
+            var bullet = Instantiate(enemyBulletPrefab, enemyBulletSpawn.position, enemyBulletSpawn.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = transform.forward * 50f;
+            
+            alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+        }
+        
     }
 
-    private void AttackPlayer()
+    private void ResetAttack()
     {
-        
+        alreadyAttacked = false;
     }
 }

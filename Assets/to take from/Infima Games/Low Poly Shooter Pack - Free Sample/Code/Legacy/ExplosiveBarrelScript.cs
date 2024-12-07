@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using RealtimeCSG;
 using UnityEngine;
 
 namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Legacy
@@ -84,6 +85,16 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 					//If gas tank is within radius, explode it
 					hit.gameObject.GetComponent<GasTankScript> ().isHit = true;
 					hit.gameObject.GetComponent<GasTankScript> ().explosionTimer = 0.05f;
+				}
+
+				if (hit.GetComponent<Collider>().tag == "Enemy")
+				{
+					hit.gameObject.GetComponent<Enemy>().Death();
+				}
+
+				if (hit.GetComponent<Collider>().tag == "Player")
+				{
+					hit.gameObject.GetComponent<Player>().Death();
 				}
 			}
 

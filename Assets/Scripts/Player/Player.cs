@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,17 @@ public class Player : MonoBehaviour
     
     public PlayerMovement PlayerMovement;
     [SerializeField] public PlayerCamera PlayerCamera;
+    [SerializeField] public ScoreKeeper scoreKeeperScript;
     [SerializeField] public Canvas pauseMenu;
     [SerializeField] public Canvas UICanvas;
     private bool escape;
     private bool pause = false;
     [SerializeField] public AudioSource musicSource;
+    [SerializeField] public TMP_Text scoreText;
+    [SerializeField] public Canvas TutCanvas;
+
+    private bool started;
+    public int score;
     
     private void Start()
     {
@@ -24,6 +31,9 @@ public class Player : MonoBehaviour
         pauseMenu.enabled = false;
         pause = false;
         UICanvas.enabled = true;
+        score = 0;
+        TutCanvas.enabled = true;
+        started = false;
     }
 
     public void TakeDamage(int damage)
@@ -53,6 +63,7 @@ public class Player : MonoBehaviour
             return;
         }
         //musicSource.Pause();
+        TutCanvas.enabled = false;
         UICanvas.enabled = false;
         pause = true;
         pauseMenu.enabled = true;
@@ -65,7 +76,8 @@ public class Player : MonoBehaviour
 
     public void StartGame()
     {
-        
+        TutCanvas.enabled = false;
+        started = true;
     }
 
     public void Death()
@@ -80,6 +92,8 @@ public class Player : MonoBehaviour
     public void ResumeGame()
     {
         //musicSource.UnPause();
+        if(started == false)
+            TutCanvas.enabled = true;
         UICanvas.enabled = true;
         pause = false;
         pauseMenu.enabled = false;
@@ -88,5 +102,11 @@ public class Player : MonoBehaviour
         PlayerCamera.control = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void UpdateScore()
+    {
+        score = scoreKeeperScript.GetScore();
+        scoreText.text = "Score:  " + score;
     }
 }

@@ -41,6 +41,6 @@ public class PlayTransition : MonoBehaviour
 
     public void OnTransitionComplete()
     {
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("Prot1");
     }
 }

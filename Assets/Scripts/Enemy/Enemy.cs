@@ -1,4 +1,7 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -7,12 +10,21 @@ public class Enemy : MonoBehaviour
     public AudioSource deathSound;
     private AudioSource audioSource;
     private EnemyMovement enemyMovement;
+    public Player playerScript;
+    [SerializeField] public ScoreKeeper scoreKeeperScript;
 
     void Awake()
     {
         currentHP = maxHP;
         audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.volume = .2f;
+        
+    }
+
+    private void Start()
+    {
+        playerScript = GameObject.Find("Player").GetComponent<Player>();
+        scoreKeeperScript = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeper>();
     }
 
     public void TakeDamage(int damage)
@@ -29,20 +41,19 @@ public class Enemy : MonoBehaviour
     {
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        scoreKeeperScript.GainScore();
+        playerScript.UpdateScore();
         if (collider != null)
         {
             collider.enabled = false;
         }
-        if (renderer != null)
+
+        foreach (Transform child in this.transform)
         {
-            renderer.enabled = false;
+            child.gameObject.SetActive(false);
         }
-        
-        if (deathSound != null)
-        {
-            audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly vary pitch between 0.95 and 1.05
-            audioSource.Play();
-        }
+        audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly vary pitch between 0.95 and 1.05
+        audioSource.Play();
         
         Destroy(gameObject, 2.5f);
     }
