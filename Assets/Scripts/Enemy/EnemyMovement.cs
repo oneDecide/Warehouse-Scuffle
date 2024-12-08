@@ -1,85 +1,134 @@
-using System;
-using System.Collections;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public Transform player;
-    public LayerMask whatIsGround, whatIsPlayer;
+    private NavMeshAgent agent;
+    private Transform player;
+    private Transform[] patrolPoints;
+    private Transform currentTarget;
+    public AudioSource shotSound;
+
     public GameObject enemyBulletPrefab;
     public Transform enemyBulletSpawn;
 
-    public Vector3 walkpoint;
-    private bool walkPointSet;
-    public float walkPointRange;
-
-    public float timeBetweenAttacks;
+    private float timeBetweenAttacks = 1f;
     private bool alreadyAttacked;
 
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    public float sightRange = 20f; 
+    public float attackRange = 20f; 
+
+    private bool playerInSightRange, playerInAttackRange;
 
     private void Awake()
     {
-        player = GameObject.Find("Player_1").transform;
+        // Automatically find the player in the scene
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogError("Player with tag 'Player' not found!");
+        }
+
+        // Automatically find patrol points in the scene
+        GameObject patrolParent = GameObject.FindGameObjectWithTag("PatrolPoints");
+        if (patrolParent != null)
+        {
+            patrolPoints = new Transform[patrolParent.transform.childCount];
+            for (int i = 0; i < patrolParent.transform.childCount; i++)
+            {
+                patrolPoints[i] = patrolParent.transform.GetChild(i);
+            }
+        }
+        else
+        {
+            Debug.LogError("No GameObject with tag 'PatrolPoints' found!");
+        }
+
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public void Update()
+    private void Update()
     {
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        
-        if(!playerInSightRange && !playerInAttackRange) Patroling();
-        if(playerInSightRange || playerInAttackRange) ChaseAndAttackPlayer();
+        // Check if the player is in sight or attack range
+        playerInSightRange = player != null && Vector3.Distance(transform.position, player.position) <= sightRange;
+        playerInAttackRange = player != null && Vector3.Distance(transform.position, player.position) <= attackRange;
+
+        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (playerInSightRange || playerInAttackRange) ChaseAndAttackPlayer();
     }
 
     private void Patroling()
     {
-        if(!walkPointSet) SearchWalkPoint();
-
-        if (walkPointSet)
-            agent.SetDestination(walkpoint);
-
-        Vector3 distanceToWalkPoint = transform.position = walkpoint;
-
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
-    }
-
-    private void SearchWalkPoint()
-    {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkpoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomX);
-
-        if (Physics.Raycast(walkpoint, -transform.up, 2f, whatIsGround)) ;
-            walkPointSet = true;
+        // Move to the next patrol point if no target is set or destination is reached
+        if (currentTarget == null || agent.remainingDistance < 0.5f)
+        {
+            ChooseRandomPatrolPoint();
+        }
     }
 
     private void ChaseAndAttackPlayer()
     {
-        agent.SetDestination(player.position);
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        // Chase the player
+        if (player != null)
         {
+            agent.SetDestination(player.position);
+            // Enable fast turning when chasing the player
+            agent.updateRotation = false; // Disable NavMeshAgent's auto-rotation
+            Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+            // Attack if in range
+            if (playerInAttackRange && !alreadyAttacked)
+            {
+                AttackPlayer();
+            }
+        }
+    }
+
+    private void AttackPlayer()
+    {
+        if (enemyBulletPrefab != null && enemyBulletSpawn != null)
+        {
+            // Spawn and shoot the bullet
             var bullet = Instantiate(enemyBulletPrefab, enemyBulletSpawn.position, enemyBulletSpawn.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = transform.forward * 50f;
-            
+            bullet.GetComponent<Rigidbody>().velocity = transform.forward * 75f;
+            shotSound.Play();
+
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
-        
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+    private void ChooseRandomPatrolPoint()
+    {
+        if (patrolPoints.Length > 0)
+        {
+            // Select a random patrol point that is valid on the NavMesh
+            for (int i = 0; i < patrolPoints.Length; i++)
+            {
+                Transform randomPoint = patrolPoints[Random.Range(0, patrolPoints.Length)];
+                if (NavMesh.SamplePosition(randomPoint.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+                {
+                    currentTarget = randomPoint;
+                    agent.SetDestination(hit.position);
+                    return;
+                }
+            }
+
+            Debug.LogWarning("No valid patrol points found on the NavMesh!");
+        }
+        else
+        {
+            Debug.LogWarning("Patrol points array is empty!");
+        }
     }
 }

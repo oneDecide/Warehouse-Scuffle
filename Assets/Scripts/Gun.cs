@@ -23,6 +23,7 @@ public class Gun : MonoBehaviour
 
     private int ammo;
     public AudioSource shotSound;
+    public AudioClip shotSoundClip;
     public AudioSource reloadSound;
     public float audioPitch = .05f;
     public TMP_Text reloadPrompt;
@@ -87,7 +88,7 @@ public class Gun : MonoBehaviour
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
             shotSound.pitch = Random.Range(1f - audioPitch, 1f + audioPitch);
-            shotSound.Play();
+            shotSound.PlayOneShot(shotSoundClip);
             ammo--;
             updateUI();
             gunAnims.SetBool("Shooting", true);

@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     private EnemyMovement enemyMovement;
     public Player playerScript;
     [SerializeField] public ScoreKeeper scoreKeeperScript;
+    private EnemyMovement movement;
+    
 
     void Awake()
     {
@@ -25,6 +27,9 @@ public class Enemy : MonoBehaviour
     {
         playerScript = GameObject.Find("Player").GetComponent<Player>();
         scoreKeeperScript = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeper>();
+        movement = gameObject.GetComponent<EnemyMovement>();
+        movement.enabled = true;
+        
     }
 
     public void TakeDamage(int damage)
@@ -39,6 +44,7 @@ public class Enemy : MonoBehaviour
 
     public void Death()
     {
+        movement.enabled = false;
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
         scoreKeeperScript.GainScore();
@@ -55,6 +61,6 @@ public class Enemy : MonoBehaviour
         audioSource.pitch = Random.Range(0.95f, 1.05f); // Slightly vary pitch between 0.95 and 1.05
         audioSource.Play();
         
-        Destroy(gameObject, 2.5f);
+        Destroy(transform.parent.gameObject, 1f);
     }
 }

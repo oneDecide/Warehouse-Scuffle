@@ -14,7 +14,8 @@ public class HudControl : MonoBehaviour
 
     private void Awake()
     {
-        if (closedByDefault)
+        
+        if (closedByDefault && optionsCanvas!= null)
         {
             optionsCanvas.GetComponent<Canvas>().enabled = false;
         }

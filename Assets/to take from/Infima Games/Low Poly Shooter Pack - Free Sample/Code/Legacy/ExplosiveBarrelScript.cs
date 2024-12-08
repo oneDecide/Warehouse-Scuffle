@@ -30,6 +30,8 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 		public float explosionRadius = 12.5f;
 		//How powerful the explosion is
 		public float explosionForce = 4000.0f;
+
+		[SerializeField] public Player playerScript;
 	
 		private void Update () {
 			//Generate random time based on min and max time values
@@ -94,7 +96,7 @@ namespace to_take_from.Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Leg
 
 				if (hit.GetComponent<Collider>().tag == "Player")
 				{
-					hit.gameObject.GetComponent<Player>().Death();
+					playerScript.Death();
 				}
 			}
 

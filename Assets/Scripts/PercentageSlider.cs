@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,11 @@ public class PercentageSlider : MonoBehaviour
 {
     [SerializeField] private Slider ourSlider;
     [SerializeField] private TextMeshProUGUI percentageText;
+
+    private void Start()
+    {
+        SetPercentage();
+    }
 
     public void SetPercentage()
     {

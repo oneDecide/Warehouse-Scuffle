@@ -14,7 +14,7 @@ public class PlayTransition : MonoBehaviour
 
     public void StartTransition()
     {
-        ChangeAnimatiionState("loadup");
+        SceneManager.LoadScene("Prot1");
     }
     private void ChangeAnimatiionState(string newState)
     {
@@ -22,6 +22,7 @@ public class PlayTransition : MonoBehaviour
             return;
         }
         currentState = newState;
+        
         animator.Play(currentState);
     }
 
@@ -41,6 +42,8 @@ public class PlayTransition : MonoBehaviour
 
     public void OnTransitionComplete()
     {
+        currentState = "Idle";
+        animator.Play(currentState);
         SceneManager.LoadScene("Prot1");
     }
 }

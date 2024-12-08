@@ -20,6 +20,7 @@ TagManager:
   - Enemy
   - ResetZone
   - explosion
+  - PatrolPoints
   layers:
   - Default
   - TransparentFX
