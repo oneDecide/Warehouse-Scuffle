@@ -1,4 +1,4 @@
 #GS-Final
-A repository for my inprogress game,
+A repository for my game - warehouse scuffle,
 
-this is a work in progress final as part of the game development class I am currently in.
+This piece of work was dont as part of a game development class at UTSA.
